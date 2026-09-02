@@ -29,7 +29,7 @@ function determinar_categoria_edad(int $edad): string
     return $categoria;
 }
 
-if($_SERVER["RequestMethod"] == "POST"){
+if($_SERVER["RequestMethod"] === "POST"){
     $nombre = trim($_POST["nombre"]);
     $edad = $_POST["edad"];
     $correo = trim($_POST["correo"]);
@@ -40,6 +40,17 @@ if($_SERVER["RequestMethod"] == "POST"){
 
     $descuento = $experiencia==="poca" ? 0.9 : 1;
     $precio = $videojuego[1]*$descuento;
+
+    $_SERVER["Registro"][] = [
+        "nombre"=> $nombre,
+        "edad" => $edad,
+        "correo" => $correo,
+        "juego" => $videojuego,
+        "modalidad" => $modalidad,
+        "experiencia" => $experiencia,
+        "cedad" => $categoria_edad,
+        "precio" => $precio,
+    ];
 
 
 }
@@ -53,7 +64,7 @@ if($_SERVER["RequestMethod"] == "POST"){
     <title>Parcial 1</title>
 </head>
 <body>
-    <form action="" method="POST">
+    <form method="POST">
         <label>nombre</label>
         <input type="text" name="nombre" required>
         <label>edad</label>
@@ -78,6 +89,31 @@ if($_SERVER["RequestMethod"] == "POST"){
 
         <button type="submit">Inscribirse</button>
     </form>
-
+    <table>
+        <thead>
+            <th>nombre</th>
+            <th>edad</th>
+            <th>correo</th>
+            <th>juego</th>
+            <th>modalidad</th>
+            <th>experiencia</th>
+            <th>categoria de edad</th>
+            <th>precio</th>
+        </thead>
+        <tbody>
+            <?php foreach($_SERVER["Registros"] as $registro => $value):  ?>
+                <tr>
+                    <td><?= $value["nombre"] ?></td>
+                    <td><?= $value["edad"] ?></td>
+                    <td><?= $value["correo"] ?></td>
+                    <td><?= $value["juego"] ?></td>
+                    <td><?= $value["modalidad"] ?></td>
+                    <td><?= $value["experiencia"] ?></td>
+                    <td><?= $value["cedad"] ?></td>
+                    <td><?= $value["precio"] ?></td>
+                </tr>
+            <? endforeach; ?>
+        </tbody>
+    </table>
 </body>
 </html>
