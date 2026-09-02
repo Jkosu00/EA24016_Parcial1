@@ -52,7 +52,9 @@ if($_SERVER["RequestMethod"] === "POST"){
         "precio" => $precio,
     ];
 
-
+     header("Location: " . $_SERVER["PHP_SELF"]);
+        exit;
+    
 }
 ?>
 
